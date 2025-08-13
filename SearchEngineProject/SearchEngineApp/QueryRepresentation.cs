@@ -4,12 +4,13 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using DocumentRepresentation;
+using MatchingModule;
 
 namespace QueryRepresentation
 {
     public abstract record QueryNode;
     public record TermNode(string Term) : QueryNode;
-    public record PhraseNode(string Phrase) : QueryNode;
+    public record PhraseAstNode(string Phrase) : QueryNode;
     public record AndNode(QueryNode Left, QueryNode Right) : QueryNode;
     public record OrNode(QueryNode Left, QueryNode Right) : QueryNode;
     public record NotNode(QueryNode Child) : QueryNode;
@@ -29,7 +30,7 @@ namespace QueryRepresentation
         public TokenType Type { get; }
         public string Value { get; }
 
-        public Token(TokenType type, string value = null)
+        public Token(TokenType type, string value = "")
         {
             Type = type;
             Value = value;
@@ -107,7 +108,7 @@ namespace QueryRepresentation
 
         public List<Token> Tokenize()
         {
-            var tokens = new List<Token>();
+            List<Token> tokens = new List<Token>();
             while (CurrentChar.HasValue)
             {
                 SkipWhitespace();
@@ -115,7 +116,7 @@ namespace QueryRepresentation
 
                 if (char.IsLetterOrDigit(CurrentChar.Value))
                 {
-                    var token = ParseKeywordOrOperator();
+                    Token token = ParseKeywordOrOperator();
                     // Filter out stopword tokens right after parsing.
                     if (token.Type != TokenType.Keyword || !StopwordFilter.IsStopword(token.Value))
                     {
@@ -251,7 +252,7 @@ namespace QueryRepresentation
         // OR has lowest precedence
         private QueryNode ParseOr()
         {
-            var node = ParseAnd();
+            QueryNode node = ParseAnd();
             while (Current.Type == TokenType.Or)
             {
                 Eat(TokenType.Or);
@@ -263,7 +264,7 @@ namespace QueryRepresentation
         // AND has medium precedence
         private QueryNode ParseAnd()
         {
-            var node = ParseNot();
+            QueryNode node = ParseNot();
             while (Current.Type == TokenType.And)
             {
                 Eat(TokenType.And);
@@ -285,7 +286,7 @@ namespace QueryRepresentation
 
         private QueryNode ParsePrimary()
         {
-            var token = Current;
+            Token token = Current;
             switch (token.Type)
             {
                 case TokenType.Keyword:
@@ -293,10 +294,10 @@ namespace QueryRepresentation
                     return new TermNode(token.Value);
                 case TokenType.Phrase:
                     Eat(TokenType.Phrase);
-                    return new PhraseNode(token.Value);
+                    return new PhraseAstNode(token.Value);
                 case TokenType.LeftParen:
                     Eat(TokenType.LeftParen);
-                    var node = ParseOr();
+                    QueryNode node = ParseOr();
                     Eat(TokenType.RightParen);
                     return node;
                 default:

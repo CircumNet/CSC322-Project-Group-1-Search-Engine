@@ -80,13 +80,13 @@ namespace DocumentRepresentation
 
         public void AddTerm(string term, int docId, int position)
         {
-            if (!_index.TryGetValue(term, out var postings))
+            if (!_index.TryGetValue(term, out List<Posting>? postings))
             {
                 postings = new List<Posting>();
                 _index[term] = postings;
             }
 
-            var last = postings.LastOrDefault();
+            Posting? last = postings.LastOrDefault();
             if (last != null && last.DocId == docId)
             {
                 last.AddPosition(position);
@@ -101,15 +101,15 @@ namespace DocumentRepresentation
 
         public void SetDocLength(int docId, int length) => _docLengths[docId] = length;
 
-        public int GetDocLength(int docId) => _docLengths.TryGetValue(docId, out var l) ? l : 0;
+        public int GetDocLength(int docId) => _docLengths.TryGetValue(docId, out int l) ? l : 0;
 
         public IEnumerable<Posting> GetPostings(string term)
         {
-            if (_index.TryGetValue(term, out var p)) return p;
+            if (_index.TryGetValue(term, out List<Posting>? p)) return p;
             return Enumerable.Empty<Posting>();
         }
 
-        public int DocFreq(string term) => _index.TryGetValue(term, out var p) ? p.Count : 0;
+        public int DocFreq(string term) => _index.TryGetValue(term, out List<Posting>? p) ? p.Count : 0;
 
         public IEnumerable<int> AllDocIds() => _docLengths.Keys;
     }
@@ -141,7 +141,7 @@ namespace DocumentRepresentation
                 _index.AddTerm(tokens[i], docId, i);
             }
             _index.SetDocLength(docId, tokens.Count);
-            var title = Path.GetFileName(filePath);
+            string title = Path.GetFileName(filePath);
             _meta[docId] = new DocumentMeta(docId, filePath, title, tokens.Count);
             return docId;
         }

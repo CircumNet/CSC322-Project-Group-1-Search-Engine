@@ -6,44 +6,50 @@ using System.Text.RegularExpressions;
 using DocumentRepresentation;
 using QueryRepresentation;
 using MatchingModule;
+using System.Runtime.InteropServices;
 
 namespace SearchEngineAPI
 {
-    public static class Program
-    {
-        public static void Main(string[] args)
-        {
-            DocReader reader = new DocReader();
-            Tokenizer tokenizer = new Tokenizer();
-            InvertedIndex index = new InvertedIndex();
-            Indexer indexer = new Indexer(reader, tokenizer, index);
+   public static class Program
+   {
+      public static void Main(string[] args)
+      {
+         DocReader reader = new DocReader();
+         Tokenizer tokenizer = new Tokenizer();
+         InvertedIndex index = new InvertedIndex();
+         Indexer indexer = new Indexer(reader, tokenizer, index);
 
-            // index sample directory
-            // indexer.IndexDirectory("./docs", "*.txt");
-            // For demonstration, index two short strings by writing temp files
-            string f1 = Path.GetTempFileName(); File.WriteAllText(f1, "The quick brown fox jumps over the lazy dog.");
-            string f2 = Path.GetTempFileName(); File.WriteAllText(f2, "Fast brown foxes leap over sleeping dogs in the park.");
-            int id1 = indexer.IndexFile(f1);
-            int id2 = indexer.IndexFile(f2);
+         // index sample directory
+         // indexer.IndexDirectory("./docs", "*.txt");
+         // For demonstration, index two short strings by writing temp files
+         //string f1 = File.ReadAllText("C:\\Users\\Oselume\\Documents\\Projects\\CSC322 Project\\SearchEngineProject\\SearchEngineApp\\docs_files\\test1.txt");
+         //Console.WriteLine(f1);
+         for (int i = 1; i <= 5; i++)
+         {
+            int id = indexer.IndexFile($"./docs_files/test{i}.txt");
+         }
 
-            Ranker ranker = new Ranker(index);
-            SearchService service = new SearchService(index, tokenizer, ranker, indexer);
+         Ranker ranker = new Ranker(index);
+         SearchService service = new SearchService(index, tokenizer, ranker, indexer);
 
-            Lexer lexer = new Lexer("quick brown fox");
-            List<Token> tokens = lexer.Tokenize().ToList();
-            Parser parserQ = new Parser(tokens);
-            QueryNode ast = parserQ.Parse();
-            IEnumerable<RankedResult> results = service.Search(ast);
-            foreach (RankedResult r in results)
-            {
-                Console.WriteLine($"Doc: {r.DocId} Score: {r.Score:F4}");
-            }
-        }
-    }
-
-#endregion
-
-
+         Console.WriteLine("Query: ");
+         string query = Console.ReadLine()!;
+         Lexer lexer = new Lexer(query);
+         List<Token> tokens = lexer.Tokenize().ToList();
+         Parser parserQ = new Parser(tokens);
+         QueryNode ast = parserQ.Parse();
+         IEnumerable<RankedResult> results = service.Search(ast);
+         if (!results.Any())
+         {
+            Console.WriteLine("No results found.");
+            return;
+         }
+         foreach (RankedResult r in results)
+         {
+            Console.WriteLine($"Doc: {r.DocId} Score: {r.Score:F4}");
+         }
+      }
+   }
 }
 
 /*
