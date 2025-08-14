@@ -1,0 +1,14 @@
+C:\Users\usler\source\repos\SearchEngineParser\SearchEngineParser\bin\Debug\net8.0\SearchEngineParser.exe
+C:\Users\usler\source\repos\SearchEngineParser\SearchEngineParser\bin\Debug\net8.0\SearchEngineParser.deps.json
+C:\Users\usler\source\repos\SearchEngineParser\SearchEngineParser\bin\Debug\net8.0\SearchEngineParser.runtimeconfig.json
+C:\Users\usler\source\repos\SearchEngineParser\SearchEngineParser\bin\Debug\net8.0\SearchEngineParser.dll
+C:\Users\usler\source\repos\SearchEngineParser\SearchEngineParser\bin\Debug\net8.0\SearchEngineParser.pdb
+C:\Users\usler\source\repos\SearchEngineParser\SearchEngineParser\obj\Debug\net8.0\SearchEngineParser.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\usler\source\repos\SearchEngineParser\SearchEngineParser\obj\Debug\net8.0\SearchEngineParser.AssemblyInfoInputs.cache
+C:\Users\usler\source\repos\SearchEngineParser\SearchEngineParser\obj\Debug\net8.0\SearchEngineParser.AssemblyInfo.cs
+C:\Users\usler\source\repos\SearchEngineParser\SearchEngineParser\obj\Debug\net8.0\SearchEngineParser.csproj.CoreCompileInputs.cache
+C:\Users\usler\source\repos\SearchEngineParser\SearchEngineParser\obj\Debug\net8.0\SearchEngineParser.dll
+C:\Users\usler\source\repos\SearchEngineParser\SearchEngineParser\obj\Debug\net8.0\refint\SearchEngineParser.dll
+C:\Users\usler\source\repos\SearchEngineParser\SearchEngineParser\obj\Debug\net8.0\SearchEngineParser.pdb
+C:\Users\usler\source\repos\SearchEngineParser\SearchEngineParser\obj\Debug\net8.0\SearchEngineParser.genruntimeconfig.cache
+C:\Users\usler\source\repos\SearchEngineParser\SearchEngineParser\obj\Debug\net8.0\ref\SearchEngineParser.dll
