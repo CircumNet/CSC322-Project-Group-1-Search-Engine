@@ -1,0 +1,61 @@
+﻿<!--
+    FILE: Views/Search/Index.cshtml
+
+    This is the search page view, now with a cleaner, more
+    aesthetically pleasing design.
+-->
+@{
+    ViewData["Title"] = "Search";
+}
+
+<div class="d-flex flex-column align-items-center justify-content-center hero-section">
+    <div class="search-card p-5 shadow-lg bg-white rounded-lg text-center">
+        <h1 class="display-3 font-weight-bold mb-2">Group 1 Search Engine</h1>
+        <p class="lead text-muted mb-4">Discover, explore, and find documents with ease.</p>
+
+        <form asp-controller="Search" asp-action="Results" method="get" class="search-form">
+            <div class="input-group input-group-lg search-bar">
+                <input type="text" name="query" class="form-control rounded-pill-left" placeholder="Type your query..."
+                    aria-label="Search query" required>
+                <div class="input-group-append">
+                    <button class="btn btn-primary rounded-pill-right" type="submit">
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+        </form>
+
+        <hr class="my-5" />
+
+        <div class="text-left upload-section">
+            <h2 class="h5 font-weight-bold text-dark mb-3">📁 Upload New Documents</h2>
+            <p class="text-muted small">Expand the index by uploading your own files. Supported formats: PDF, DOCX,
+                PPTX, XLS, and TXT.</p>
+            <form asp-controller="Search" asp-action="Upload" method="post" enctype="multipart/form-data">
+                <div class="input-group">
+                    <div class="custom-file rounded-lg-left">
+                        <input type="file" class="custom-file-input" id="fileUpload" name="files" multiple>
+                        <label class="custom-file-label" for="fileUpload">Choose file(s)</label>
+                    </div>
+                    <div class="input-group-append">
+                        <button class="btn btn-secondary rounded-lg-right" type="submit">Upload</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="[https://kit.fontawesome.com/a076d05399.js](https://kit.fontawesome.com/a076d05399.js)"
+    crossorigin="anonymous"></script>
+<script>
+    // Update the label text with the selected file names
+    document.getElementById('fileUpload').addEventListener('change', function (e) {
+        var fileName = 'Choose file(s)';
+        if (this.files.length > 0) {
+            fileName = Array.from(this.files).map(f => f.name).join(', ');
+        }
+        var nextSibling = e.target.nextElementSibling;
+        nextSibling.innerText = fileName;
+    });
+</script>
